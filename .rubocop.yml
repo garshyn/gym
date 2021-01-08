@@ -2,3 +2,21 @@ require:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
+
+Style/Documentation:
+  Enabled: false
+
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'db/schema.rb'
+    - 'vendor/**/*'
+    - 'config/application.rb'
+    - 'config/puma.rb'
+    - 'config/environments/*.rb'
+    - 'log/*'
+    - 'tmp/**/*'
+    - 'coverage/**/*'
+    - 'public/**/*'
+    - 'spec/spec_helper.rb'
+    - 'spec/rails_helper.rb'
