@@ -53,3 +53,6 @@ Rails/HasAndBelongsToMany:
 
 Style/ClassAndModuleChildren:
   Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
