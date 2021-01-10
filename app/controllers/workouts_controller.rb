@@ -15,7 +15,7 @@ class WorkoutsController < ApplicationController
 
   def create
     @workout = Workout.new(workout_params)
-    @workout.creator_id = params[:trainer_id]
+    @workout.creator_id = current_user.id
     @workout.total_duration = 0
     @workout.state ||= 'draft'
 

@@ -31,8 +31,12 @@ describe 'workouts', type: :request do
     end
   end
 
+  let(:headers) { json_header.merge('Authorization' => "Bearer #{token}") }
+  let(:token) { JsonWebToken.new(trainer_id: trainer.id).encode }
+  let!(:trainer) { create :trainer }
+
   describe 'GET #index action' do
-    let(:make_request) { get workouts_path }
+    let(:make_request) { get workouts_path, headers: headers }
     let!(:workout) { create :workout }
     let(:expected_json) do
       [
@@ -47,13 +51,12 @@ describe 'workouts', type: :request do
   end
 
   describe '#create action' do
-    let(:make_request) { post workouts_path(trainer_id: trainer.id), params: params.to_json, headers: headers }
+    let(:make_request) { post workouts_path, params: params.to_json, headers: headers }
     let(:params) do
       {
         workout: { name: 'Workout' }
       }
     end
-    let(:trainer) { create :trainer }
     let(:created_workout) { Workout.last }
 
     it 'creates a record' do
@@ -74,10 +77,10 @@ describe 'workouts', type: :request do
   end
 
   describe '#show action' do
-    let(:make_request) { get workout_path(workout) }
+    let(:make_request) { get workout_path(workout), headers: headers }
     let(:workout) { create :workout }
 
-    it 'return record data' do
+    it 'returns record data' do
       expect(subject).to be_successful
       expect(json).to eq serialized_workout(workout)
     end
@@ -98,7 +101,7 @@ describe 'workouts', type: :request do
   end
 
   describe '#destroy action' do
-    let(:make_request) { delete workout_path(workout) }
+    let(:make_request) { delete workout_path(workout), headers: headers }
     let!(:workout) { create :workout }
 
     it 'destroys a record' do

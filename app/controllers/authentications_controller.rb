@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class AuthenticationsController < ApplicationController
+  skip_before_action :authorize_request
+
   def create
     @trainer = Trainer.find_by(email: params[:email])
     if @trainer&.authenticate(params[:password])
