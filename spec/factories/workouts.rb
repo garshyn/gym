@@ -3,8 +3,8 @@
 FactoryBot.define do
   factory :workout do
     name { 'MyString' }
-    creator { nil }
-    total_duration { 1 }
-    state { 'MyString' }
+    association(:creator, factory: :trainer)
+    total_duration { 0 }
+    state { 'draft' }
   end
 end
