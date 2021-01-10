@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2021_01_10_133655) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "email"
     t.string "password_digest"
-    t.index ["email"], name: "index_trainers_on_email"
+    t.index ["email"], name: "index_trainers_on_email", unique: true
   end
 
   create_table "workouts", force: :cascade do |t|
