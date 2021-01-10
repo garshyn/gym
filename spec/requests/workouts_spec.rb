@@ -12,7 +12,7 @@ describe 'workouts', type: :request do
     { 'id' => workout.id, 'name' => workout.name, 'total_duration' => 0 }
   end
 
-  shared_examples 'an error response' do
+  shared_examples 'a validation error' do
     context 'with empty name' do
       let(:params) do
         {
@@ -27,6 +27,18 @@ describe 'workouts', type: :request do
           expect(subject).to have_http_status(:unprocessable_entity)
           expect(json).to eq error_json
         end.to change(Workout, :count).by(0)
+      end
+    end
+  end
+
+  shared_examples "an error when accessing other's workout" do
+    context 'when workout belongs to other trainer' do
+      let!(:workout) { create :workout }
+
+      it 'returns a list of workouts' do
+        expect(subject).not_to be_successful
+        expect(subject).to have_http_status(:unauthorized)
+        expect(json).to eq('error' => 'Record not found')
       end
     end
   end
@@ -82,22 +94,24 @@ describe 'workouts', type: :request do
       )
     end
 
-    it_behaves_like 'an error response'
+    it_behaves_like 'a validation error'
   end
 
   describe '#show action' do
     let(:make_request) { get workout_path(workout), headers: headers }
-    let(:workout) { create :workout }
+    let(:workout) { create :workout, creator: trainer }
 
     it 'returns record data' do
       expect(subject).to be_successful
       expect(json).to eq serialized_workout(workout)
     end
+
+    it_behaves_like "an error when accessing other's workout"
   end
 
   describe '#update action' do
     let(:make_request) { put workout_path(workout), params: params.to_json, headers: headers }
-    let!(:workout) { create :workout }
+    let!(:workout) { create :workout, creator: trainer }
     let(:params) { { workout: { name: 'New name' } } }
 
     it 'updates a record' do
@@ -106,17 +120,20 @@ describe 'workouts', type: :request do
       end.to change { workout.reload.name }.from('MyString').to('New name')
     end
 
-    it_behaves_like 'an error response'
+    it_behaves_like 'a validation error'
+    it_behaves_like "an error when accessing other's workout"
   end
 
   describe '#destroy action' do
     let(:make_request) { delete workout_path(workout), headers: headers }
-    let!(:workout) { create :workout }
+    let!(:workout) { create :workout, creator: trainer }
 
     it 'destroys a record' do
       expect do
         expect(subject).to be_successful
       end.to change(Workout, :count).by(-1)
     end
+
+    it_behaves_like "an error when accessing other's workout"
   end
 end

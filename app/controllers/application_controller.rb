@@ -7,6 +7,8 @@ class ApplicationController < ActionController::API
 
   protected
 
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
   def authorize_request
     header = request.headers['Authorization']
     header = header.split.last if header
@@ -15,8 +17,12 @@ class ApplicationController < ActionController::API
       token = JsonWebToken.decode(header)
 
       @current_user = Trainer.find(token.payload[:trainer_id])
-    rescue ActiveRecord::RecordNotFound, JWT::DecodeError => e
-      render json: { errors: e.message }, status: :unauthorized
+    rescue JWT::DecodeError => e
+      render json: { error: e.message }, status: :unauthorized
     end
+  end
+
+  def record_not_found
+    render json: { error: 'Record not found' }, status: :unauthorized
   end
 end
