@@ -6,7 +6,7 @@ module Requests
       JSON.parse(response.body)
     end
 
-    def headers
+    def json_header
       { 'CONTENT_TYPE' => 'application/json' }
     end
   end
