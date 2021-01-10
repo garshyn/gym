@@ -47,3 +47,9 @@ RSpec/MultipleMemoizedHelpers:
 
 RSpec/LetSetup:
   Enabled: false
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
