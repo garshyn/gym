@@ -22,8 +22,22 @@ AllCops:
     - 'spec/spec_helper.rb'
     - 'spec/rails_helper.rb'
 
+Metrics/BlockLength:
+  IgnoredMethods:
+    - context
+    - describe
+
 Layout/DotPosition:
   EnforcedStyle: trailing
 
 RSpec/FilePath:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/NamedSubject:
   Enabled: false
