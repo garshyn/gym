@@ -9,4 +9,7 @@ RSpec.describe Trainee, type: :model do
   it { is_expected.to allow_value('email@example.com').for(:email) }
   it { is_expected.not_to allow_value('email@').for(:email) }
   it { is_expected.not_to allow_value('@example.com').for(:email) }
+
+  it { is_expected.to have_many(:trainer_selections) }
+  it { is_expected.to have_many(:trainers).through(:trainer_selections) }
 end
