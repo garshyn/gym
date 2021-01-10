@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :workout do
-    name { 'MyString' }
+    sequence(:name) { |n| "Workout #{n}" }
     association(:creator, factory: :trainer)
     total_duration { 0 }
     state { 'draft' }

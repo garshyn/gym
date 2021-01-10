@@ -113,12 +113,13 @@ describe 'trainers/workouts API', type: :request do
   describe '#update action' do
     let(:make_request) { put trainers_workout_path(workout), params: params.to_json, headers: headers }
     let!(:workout) { create :workout, creator: trainer }
+    let!(:previous_name) { workout.name }
     let(:params) { { workout: { name: 'New name', exercise_ids: [exercise.id] } } }
 
     it 'updates a record' do
       expect do
         expect(subject).to be_successful
-      end.to change { workout.reload.name }.from('MyString').to('New name').
+      end.to change { workout.reload.name }.from(previous_name).to('New name').
         and change { workout.reload.total_duration }.from(0).to(10)
     end
 
