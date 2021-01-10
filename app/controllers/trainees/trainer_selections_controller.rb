@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Trainees::TrainerSelectionsController < Trainees::BaseController
   def create
     TrainerSelection.create! trainee_id: current_user.id, trainer_id: params[:trainer_id]

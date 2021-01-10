@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_context 'when a trainee' do
   let(:headers) { json_header.merge('Authorization' => "Bearer #{token}") }
   let(:token) { JsonWebToken.new(trainee_id: trainee.id).encode }
@@ -9,4 +11,3 @@ shared_context 'when a trainer' do
   let(:token) { JsonWebToken.new(trainer_id: trainer.id).encode }
   let!(:trainer) { create :trainer }
 end
-
