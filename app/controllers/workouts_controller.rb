@@ -4,9 +4,7 @@ class WorkoutsController < ApplicationController
   before_action :set_workout, only: %i[show update destroy]
 
   def index
-    @workouts = Workout.all
-
-    render json: @workouts
+    render json: current_user.workouts
   end
 
   def show

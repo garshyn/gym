@@ -37,7 +37,7 @@ describe 'workouts', type: :request do
 
   describe 'GET #index action' do
     let(:make_request) { get workouts_path, headers: headers }
-    let!(:workout) { create :workout }
+    let!(:workout) { create :workout, creator: trainer }
     let(:expected_json) do
       [
         serialized_workout(workout)
@@ -47,6 +47,15 @@ describe 'workouts', type: :request do
     it 'returns a list of workouts' do
       expect(subject).to be_successful
       expect(json).to eq expected_json
+    end
+
+    context 'when workout belongs to other trainer' do
+      let!(:workout) { create :workout }
+
+      it 'returns a list of workouts' do
+        expect(subject).to be_successful
+        expect(json).to eq []
+      end
     end
   end
 
