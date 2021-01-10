@@ -8,5 +8,8 @@ Rails.application.routes.draw do
 
   namespace :trainees do
     resource :authentication, only: :create
+    resources :trainers, only: %i[index] do
+      resource :trainer_selection, only: %i[create destroy]
+    end
   end
 end
