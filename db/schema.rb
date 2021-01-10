@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_10_191424) do
+ActiveRecord::Schema.define(version: 2021_01_10_205930) do
 
   create_table "exercises", force: :cascade do |t|
     t.string "name"
@@ -23,6 +23,20 @@ ActiveRecord::Schema.define(version: 2021_01_10_191424) do
     t.integer "workout_id", null: false
     t.integer "exercise_id", null: false
     t.index ["workout_id", "exercise_id"], name: "index_exercises_workouts_on_workout_id_and_exercise_id"
+  end
+
+  create_table "trainee_workouts", force: :cascade do |t|
+    t.integer "trainer_id", null: false
+    t.integer "trainee_id", null: false
+    t.integer "workout_id", null: false
+    t.string "state"
+    t.integer "current_exercise_id"
+    t.integer "medium_pulse"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["trainee_id"], name: "index_trainee_workouts_on_trainee_id"
+    t.index ["trainer_id"], name: "index_trainee_workouts_on_trainer_id"
+    t.index ["workout_id"], name: "index_trainee_workouts_on_workout_id"
   end
 
   create_table "trainees", force: :cascade do |t|
@@ -65,6 +79,9 @@ ActiveRecord::Schema.define(version: 2021_01_10_191424) do
     t.index ["state"], name: "index_workouts_on_state"
   end
 
+  add_foreign_key "trainee_workouts", "trainees"
+  add_foreign_key "trainee_workouts", "trainers"
+  add_foreign_key "trainee_workouts", "workouts"
   add_foreign_key "trainer_selections", "trainees"
   add_foreign_key "trainer_selections", "trainers"
 end
