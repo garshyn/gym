@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
-class Trainers::AuthenticationsController < ApplicationController
-  skip_before_action :authorize_request
+class Trainers::AuthenticationsController < AuthenticationsController
+  private
 
-  def create
-    @trainer = Trainer.find_by(email: params[:email])
-    if @trainer&.authenticate(params[:password])
-      token = JsonWebToken.new(trainer_id: @trainer.id)
-      render json: { token: token.encode, expired: I18n.l(token.expired) }
-    else
-      render json: { error: 'unauthorized' }, status: :unauthorized
-    end
+  def user_record
+    @user_record ||= Trainer.find_by(email: params[:email])
+  end
+
+  def payload
+    { trainer_id: user_record.id }
   end
 end

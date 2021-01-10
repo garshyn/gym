@@ -16,7 +16,7 @@ class ApplicationController < ActionController::API
     begin
       token = JsonWebToken.decode(header)
 
-      @current_user = Trainer.find(token.payload[:trainer_id])
+      find_current_user(token.payload)
     rescue JWT::DecodeError => e
       render json: { error: e.message }, status: :unauthorized
     end

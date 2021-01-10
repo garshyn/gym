@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Trainers::WorkoutsController < ApplicationController
+class Trainers::WorkoutsController < Trainers::BaseController
   before_action :set_workout, only: %i[show update destroy]
 
   def index
