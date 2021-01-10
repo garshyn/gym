@@ -13,5 +13,6 @@ Rails.application.routes.draw do
     resources :trainers, only: %i[index] do
       resource :trainer_selection, only: %i[create destroy]
     end
+    resources :workouts, only: %i[index]
   end
 end
