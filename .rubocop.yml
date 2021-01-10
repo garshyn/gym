@@ -10,7 +10,7 @@ AllCops:
   NewCops: enable
   Exclude:
     - 'bin/**/*'
-    - 'db/schema.rb'
+    - 'db/**/*'
     - 'vendor/**/*'
     - 'config/application.rb'
     - 'config/puma.rb'
@@ -40,4 +40,7 @@ RSpec/ExampleLength:
   Enabled: false
 
 RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
   Enabled: false
