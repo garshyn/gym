@@ -8,6 +8,8 @@ describe 'trainers/workouts API', type: :request do
     response
   end
 
+  include_context 'when a trainer'
+
   def serialized_workout(workout)
     { 'id' => workout.id, 'name' => workout.name, 'total_duration' => workout.total_duration }
   end
@@ -43,9 +45,6 @@ describe 'trainers/workouts API', type: :request do
     end
   end
 
-  let(:headers) { json_header.merge('Authorization' => "Bearer #{token}") }
-  let(:token) { JsonWebToken.new(trainer_id: trainer.id).encode }
-  let!(:trainer) { create :trainer }
   let(:exercise) { create :exercise, duration: 10 }
 
   describe 'GET #index action' do
