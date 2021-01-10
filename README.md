@@ -1,24 +1,16 @@
-# README
+# Description
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+API-only app for managing workouts
 
-Things you may want to cover:
+## Gems used
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- `active_model_serializers` for easy and fase serialization
+- `bcrypt` for hashing passwords
+- `jwt` for authentication
+- `rubocop` for linting
+- `sqlite3` as simple database driver
+- `rack-cors` for Cross-Origin Resource Sharing
+- `rspec` as test driver
+- `factory_bot_rails` for testing
+- `shoulda-matcher` for handy tesging shortcuts
+- `simplecov` for tracking test coverage (98.77%)
