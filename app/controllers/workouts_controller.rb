@@ -14,7 +14,7 @@ class WorkoutsController < ApplicationController
   def create
     @workout = Workout.new(workout_params)
     @workout.creator_id = current_user.id
-    @workout.total_duration = 0
+    @workout.total_duration = total_duration
     @workout.state ||= 'draft'
 
     if @workout.save
@@ -25,7 +25,10 @@ class WorkoutsController < ApplicationController
   end
 
   def update
-    if @workout.update(workout_params)
+    @workout.assign_attributes(workout_params)
+    @workout.total_duration = total_duration
+
+    if @workout.save
       render json: @workout
     else
       render json: @workout.errors, status: :unprocessable_entity
@@ -43,6 +46,10 @@ class WorkoutsController < ApplicationController
   end
 
   def workout_params
-    params.require(:workout).permit(:name, :state)
+    params.require(:workout).permit(:name, :state, exercise_ids: [])
+  end
+
+  def total_duration
+    Exercise.where(id: workout_params[:exercise_ids]).sum(:duration)
   end
 end

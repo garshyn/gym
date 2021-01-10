@@ -9,7 +9,7 @@ describe 'workouts', type: :request do
   end
 
   def serialized_workout(workout)
-    { 'id' => workout.id, 'name' => workout.name, 'total_duration' => 0 }
+    { 'id' => workout.id, 'name' => workout.name, 'total_duration' => workout.total_duration }
   end
 
   shared_examples 'a validation error' do
@@ -46,6 +46,7 @@ describe 'workouts', type: :request do
   let(:headers) { json_header.merge('Authorization' => "Bearer #{token}") }
   let(:token) { JsonWebToken.new(trainer_id: trainer.id).encode }
   let!(:trainer) { create :trainer }
+  let(:exercise) { create :exercise, duration: 10 }
 
   describe 'GET #index action' do
     let(:make_request) { get workouts_path, headers: headers }
@@ -75,7 +76,7 @@ describe 'workouts', type: :request do
     let(:make_request) { post workouts_path, params: params.to_json, headers: headers }
     let(:params) do
       {
-        workout: { name: 'Workout' }
+        workout: { name: 'Workout', exercise_ids: [exercise.id] }
       }
     end
     let(:created_workout) { Workout.last }
@@ -89,8 +90,9 @@ describe 'workouts', type: :request do
       expect(created_workout).to have_attributes(
         name: 'Workout',
         creator: trainer,
-        total_duration: 0,
-        state: 'draft'
+        total_duration: 10,
+        state: 'draft',
+        exercise_ids: [exercise.id]
       )
     end
 
@@ -112,12 +114,13 @@ describe 'workouts', type: :request do
   describe '#update action' do
     let(:make_request) { put workout_path(workout), params: params.to_json, headers: headers }
     let!(:workout) { create :workout, creator: trainer }
-    let(:params) { { workout: { name: 'New name' } } }
+    let(:params) { { workout: { name: 'New name', exercise_ids: [exercise.id] } } }
 
     it 'updates a record' do
       expect do
         expect(subject).to be_successful
-      end.to change { workout.reload.name }.from('MyString').to('New name')
+      end.to change { workout.reload.name }.from('MyString').to('New name').
+        and change { workout.reload.total_duration }.from(0).to(10)
     end
 
     it_behaves_like 'a validation error'
