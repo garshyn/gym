@@ -2,6 +2,7 @@
 
 class Trainer < ApplicationRecord
   has_secure_password
+  acts_as_taggable_on :expertise
 
   has_many :workouts, foreign_key: :creator_id, inverse_of: :creator, dependent: :destroy
   has_many :trainer_selections, dependent: :destroy
