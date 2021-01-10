@@ -12,6 +12,25 @@ describe 'workouts', type: :request do
     { 'id' => workout.id, 'name' => workout.name, 'total_duration' => 0 }
   end
 
+  shared_examples 'an error response' do
+    context 'with empty name' do
+      let(:params) do
+        {
+          workout: { name: '' }
+        }
+      end
+      let(:error_json) { { 'name' => ["can't be blank"] } }
+
+      it 'returns an error' do
+        expect do
+          expect(subject).not_to be_successful
+          expect(subject).to have_http_status(:unprocessable_entity)
+          expect(json).to eq error_json
+        end.to change(Workout, :count).by(0)
+      end
+    end
+  end
+
   describe 'GET #index action' do
     let(:make_request) { get workouts_path }
     let!(:workout) { create :workout }
@@ -50,6 +69,8 @@ describe 'workouts', type: :request do
         state: 'draft'
       )
     end
+
+    it_behaves_like 'an error response'
   end
 
   describe '#show action' do
@@ -72,6 +93,8 @@ describe 'workouts', type: :request do
         expect(subject).to be_successful
       end.to change { workout.reload.name }.from('MyString').to('New name')
     end
+
+    it_behaves_like 'an error response'
   end
 
   describe '#destroy action' do
