@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Trainee < ApplicationRecord
+  has_secure_password
+
   has_many :trainer_selections, dependent: :destroy
   has_many :trainers, through: :trainer_selections
 

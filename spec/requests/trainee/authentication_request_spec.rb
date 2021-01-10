@@ -2,17 +2,17 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Trainer authentication', type: :request do
-  describe 'POST /trainers/authentication' do
+RSpec.describe 'Trainee authentication', type: :request do
+  describe 'POST /trainees/authentication' do
     subject do
-      post trainers_authentication_path, params: params.to_json, headers: json_header
+      post trainees_authentication_path, params: params.to_json, headers: json_header
       response
     end
 
-    let(:params) { { email: trainer.email, password: password } }
-    let(:password) { trainer.password }
-    let(:trainer) { create :trainer }
-    let(:token) { JsonWebToken.new(trainer_id: trainer.id) }
+    let(:params) { { email: trainee.email, password: password } }
+    let(:password) { trainee.password }
+    let(:trainee) { create :trainee }
+    let(:token) { JsonWebToken.new(trainee_id: trainee.id) }
 
     it 'returns jwt token' do
       freeze_time
