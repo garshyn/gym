@@ -21,3 +21,9 @@ AllCops:
     - 'public/**/*'
     - 'spec/spec_helper.rb'
     - 'spec/rails_helper.rb'
+
+Layout/DotPosition:
+  EnforcedStyle: trailing
+
+RSpec/FilePath:
+  Enabled: false
