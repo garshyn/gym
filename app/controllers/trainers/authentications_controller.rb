@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AuthenticationsController < ApplicationController
+class Trainers::AuthenticationsController < ApplicationController
   skip_before_action :authorize_request
 
   def create

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class WorkoutsController < ApplicationController
+class Trainers::WorkoutsController < ApplicationController
   before_action :set_workout, only: %i[show update destroy]
 
   def index
@@ -18,7 +18,7 @@ class WorkoutsController < ApplicationController
     @workout.state ||= 'draft'
 
     if @workout.save
-      render json: @workout, status: :created, location: @workout
+      render json: @workout, status: :created, location: [:trainers, @workout]
     else
       render json: @workout.errors, status: :unprocessable_entity
     end

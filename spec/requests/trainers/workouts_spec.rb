@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'workouts', type: :request do
+describe 'trainers/workouts API', type: :request do
   subject do
     make_request
     response
@@ -49,7 +49,7 @@ describe 'workouts', type: :request do
   let(:exercise) { create :exercise, duration: 10 }
 
   describe 'GET #index action' do
-    let(:make_request) { get workouts_path, headers: headers }
+    let(:make_request) { get trainers_workouts_path, headers: headers }
     let!(:workout) { create :workout, creator: trainer }
     let(:expected_json) do
       [
@@ -73,7 +73,7 @@ describe 'workouts', type: :request do
   end
 
   describe '#create action' do
-    let(:make_request) { post workouts_path, params: params.to_json, headers: headers }
+    let(:make_request) { post trainers_workouts_path, params: params.to_json, headers: headers }
     let(:params) do
       {
         workout: { name: 'Workout', exercise_ids: [exercise.id] }
@@ -100,7 +100,7 @@ describe 'workouts', type: :request do
   end
 
   describe '#show action' do
-    let(:make_request) { get workout_path(workout), headers: headers }
+    let(:make_request) { get trainers_workout_path(workout), headers: headers }
     let(:workout) { create :workout, creator: trainer }
 
     it 'returns record data' do
@@ -112,7 +112,7 @@ describe 'workouts', type: :request do
   end
 
   describe '#update action' do
-    let(:make_request) { put workout_path(workout), params: params.to_json, headers: headers }
+    let(:make_request) { put trainers_workout_path(workout), params: params.to_json, headers: headers }
     let!(:workout) { create :workout, creator: trainer }
     let(:params) { { workout: { name: 'New name', exercise_ids: [exercise.id] } } }
 
@@ -128,7 +128,7 @@ describe 'workouts', type: :request do
   end
 
   describe '#destroy action' do
-    let(:make_request) { delete workout_path(workout), headers: headers }
+    let(:make_request) { delete trainers_workout_path(workout), headers: headers }
     let!(:workout) { create :workout, creator: trainer }
 
     it 'destroys a record' do

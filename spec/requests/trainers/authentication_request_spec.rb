@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Authentication', type: :request do
   describe 'POST /authentication' do
     subject do
-      post authentication_path, params: params.to_json, headers: json_header
+      post trainers_authentication_path, params: params.to_json, headers: json_header
       response
     end
 
