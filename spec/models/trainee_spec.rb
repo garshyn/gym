@@ -12,4 +12,12 @@ RSpec.describe Trainee, type: :model do
 
   it { is_expected.to have_many(:trainer_selections) }
   it { is_expected.to have_many(:trainers).through(:trainer_selections) }
+
+  describe '#name' do
+    subject { trainee.name }
+
+    let(:trainee) { create :trainee, first_name: 'First', last_name: 'Last' }
+
+    it { is_expected.to eq 'First Last' }
+  end
 end
