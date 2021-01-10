@@ -12,6 +12,22 @@ RSpec.describe 'Trainers::TraineeWorkouts', type: :request do
 
   let!(:trainee) { create :trainee }
 
+  describe 'GET /trainers/trainee_workouts' do
+    let(:make_request) { get trainers_trainee_workouts_path(trainee_id: trainee.id), headers: headers }
+    let!(:trainee_workout) { create :trainee_workout, trainee: trainee, trainer: trainer }
+
+    it 'shows trainee results' do
+      expect(subject).to be_successful
+
+      expect(json).to eq([
+                           'id' => trainee_workout.id,
+                           'name' => trainee_workout.name,
+                           'state' => trainee_workout.state,
+                           'medium_pulse' => trainee_workout.medium_pulse
+                         ])
+    end
+  end
+
   describe 'POST /trainers/trainee_workouts' do
     let(:make_request) { post trainers_trainee_workouts_path, params: params.to_json, headers: headers }
     let(:params) { { trainee_id: trainee.id, workout_id: workout.id } }

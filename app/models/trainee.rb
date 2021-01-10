@@ -5,6 +5,7 @@ class Trainee < ApplicationRecord
 
   has_many :trainer_selections, dependent: :destroy
   has_many :trainers, through: :trainer_selections
+  has_many :trainee_workouts, dependent: :destroy
 
   validates :first_name, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }

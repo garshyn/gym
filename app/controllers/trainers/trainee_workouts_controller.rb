@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 class Trainers::TraineeWorkoutsController < Trainers::BaseController
+  def index
+    trainee = Trainee.find(params[:trainee_id])
+    render json: trainee.trainee_workouts
+  end
+
   def create
     render json: TraineeWorkout.create!(
       trainee_workout_params.merge(

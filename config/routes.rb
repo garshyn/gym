@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     resource :authentication, only: :create
     resources :workouts, only: %i[index show create update destroy]
     resources :trainees, only: %i[index]
-    resources :trainee_workouts, only: %i[create destroy]
+    resources :trainee_workouts, only: %i[index create destroy]
   end
 
   namespace :trainees do
