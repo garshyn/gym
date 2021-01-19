@@ -7,6 +7,12 @@ class Trainers::WorkoutsController < Trainers::BaseController
     render json: current_user.workouts
   end
 
+  # param months --> array of dates
+  # returns a list of hashes {date: <a date>, total_seconds: <number of seconds of workout for that day>}
+  def daily
+    render json: Denormalizers::DailyResultsInProvidedMonths.call(current_user, params[:months].uniq)
+  end
+
   def show
     render json: @workout
   end
