@@ -5,6 +5,7 @@ class CreateTrainees < ActiveRecord::Migration[6.1]
     create_table :trainees do |t|
       t.string :first_name
       t.string :last_name
+      t.datetime :birthday
       t.string :email, index: { unique: true }
 
       t.timestamps
